@@ -6,7 +6,7 @@ task :recreate_readme do
 
     Dir['*.rb'].sort.each do |script|
       version, desc = read_script_header(script)
-      md.puts "== #{script} (v#{version})"
+      md.puts "## #{script} (v#{version})"
       desc.each do |line|
         md.puts line
       end
