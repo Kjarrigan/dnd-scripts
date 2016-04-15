@@ -44,9 +44,11 @@ class Character
   @@transaction_log = []
 
   class << self
-    def ability(name, val)
+    def ability(name, val, tmp=0)
       define_method name do val end
       define_method name.to_s+'_mod' do (val-10)/2 end
+      define_method name.to_s+'_temp' do tmp end
+      define_method name.to_s+'_temp_mod' do tmp > 0 ? (send(name)+send("#{name}_temp")-10)/2 : 0 end
     end
 
     def hp_add(val)
@@ -86,6 +88,7 @@ end
 module Race
   module Human
     def speed; 30; end
+    def race; self.class.to_s; end
   end
 end
 
@@ -124,13 +127,20 @@ class Gwyn < Character
   include Klass::Sorcerer
 
   level 3
-  desc :full_name, 'Gwyneth Llywleyn'
+  desc :name, 'Gwyneth Llywleyn'
   desc :age, 18
+  desc :gender, 'Female'
   desc :parents, 'Dillion & Guinevere'
   desc :place_of_birth, 'Otternburg'
-  desc :height, 165
-  desc :weight, 52
+  desc :size, 'Medium'
+  desc :height, '165 cm'
+  desc :weight, '52 kg'
   desc :alignment, 'Neutral Good'
+  desc :player, 'Holger'
+  desc :hair, 'Black'
+  desc :skin, 'Pale'
+  desc :eyes, 'Blue'
+  desc :deity, ''
 
   ability :str, 8
   ability :dex, 14
