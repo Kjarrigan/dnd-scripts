@@ -17,11 +17,11 @@ module CharacterSheetPdf
       text_box label, at: [x, cursor-12], size: FONT_SMALL
     end
 
-    def black_box(content, x, w, margin: 3, weight: :normal)
+    def black_box(content, x, w, margin: 3, weight: :normal, font_size: FONT_NORMAL)
       self.fill_color = "000000"
       fill_and_stroke_rectangle [x, cursor+2], w-margin, FONT_NORMAL+2
       self.fill_color = "ffffff"
-      text_box content, at: [x,cursor], width: w-margin, align: :center, weight: weight
+      text_box content, at: [x,cursor], width: w-margin, align: :center, weight: weight, size: font_size
       self.fill_color = "000000"
     end
 
@@ -31,9 +31,18 @@ module CharacterSheetPdf
       self.fill_color = "000000"
       text_box content, at: [x,cursor], width: w-margin, align: :center, weight: weight
     end
+    
+    def grey_box(content, x, w, margin: 3, weight: :normal)
+      self.fill_color = "ffffff"
+      self.stroke_color = "c0c0c0"
+      fill_and_stroke_rectangle [x, cursor+2], w-margin, FONT_NORMAL+2
+      self.fill_color = "000000"
+      self.stroke_color = "000000"
+      text_box content, at: [x,cursor], width: w-margin, align: :center, weight: weight
+    end    
 
-    def label_box(content, x, w)
-      text_box content, at: [x, cursor], width: w, height: FONT_NORMAL+2, size: FONT_SMALL, align: :center, valign: :bottom
+    def label_box(content, x, w, valign: :bottom)
+      text_box content, at: [x, cursor], width: w, height: FONT_NORMAL+2, size: FONT_SMALL, align: :center, valign: valign
     end
   end
 
@@ -49,7 +58,7 @@ module CharacterSheetPdf
       else
         obj.send(name)
       end
-      resp.to_s
+      resp.kind_of?(Array) ? resp : resp.to_s
     end
   end
 
@@ -59,12 +68,11 @@ module CharacterSheetPdf
     attr_accessor :character
     def initialize
       super(margin: 5)
-      font_size = FONT_NORMAL
+      self.font_size = FONT_NORMAL
       line_width = 0.5
     end
 
     def basic_information
-      # Description
       text_field 'CHARACTER NAME', character.name, 0, 200
       text_field 'PLAYER', character.player, 200, 200
       move_down 20
@@ -94,19 +102,78 @@ module CharacterSheetPdf
       label_box 'TEMPORARY MODIFIER', 130, 30
 
       [:str, :dex, :con, :int, :wis, :cha].each do |ab|
-        move_down 14
+        move_down 15
         black_box ab.to_s.upcase, 0, 40, weight: :bold
         white_box character.send(ab), 40, 30
         white_box character.send("#{ab}_mod"), 70, 30
-        white_box none_if_blank(character.send("#{ab}_temp")), 100, 30
-        white_box none_if_blank(character.send("#{ab}_temp_mod")), 130, 30
+        grey_box none_if_blank(character.send("#{ab}_temp")), 100, 30
+        grey_box none_if_blank(character.send("#{ab}_temp_mod")), 130, 30
       end
+    end
+    
+    def saving_throws
+      move_down 15
+      label_box "SAVING THROWS", 0, 70
+      label_box "TOTAL", 70, 30
+      label_box "BASE SAVE", 110, 30
+      label_box "ABILITY MODIFIER", 150, 30
+      label_box "MAGIC MODIFIER", 190, 30
+      label_box "MISC. MODIFIER", 230, 30
+      label_box "TEMPORARY MODIFIER", 270, 30
+      
+      [:fortitude, :reflex, :will].each do |save_throw|
+        sum, base, ability, magic, misc, temp = character.send("#{save_throw}_save_stats").map(&:to_s)
+        
+        move_down 15
+        black_box save_throw.to_s.upcase, 0, 70
+        white_box sum, 70, 30
+        text_box "=", at: [100,cursor], width: 8, height: FONT_NORMAL+2, align: :center
+        white_box base, 110, 30
+        text_box "+", at: [140,cursor], width: 8, height: FONT_NORMAL+2, align: :center
+        white_box ability, 150, 30
+        text_box "+", at: [180,cursor], width: 8, height: FONT_NORMAL+2, align: :center
+        white_box none_if_blank(magic), 190, 30
+        text_box "+", at: [220,cursor], width: 8, height: FONT_NORMAL+2, align: :center
+        white_box none_if_blank(misc), 230, 30
+        text_box "+", at: [260,cursor], width: 8, height: FONT_NORMAL+2, align: :center
+        grey_box none_if_blank(temp), 270, 30
+      end
+    end
+    
+    def attack_bonus
+    end
+    
+    def weapon
+      move_down 20
+      black_box "WEAPON", 0, 90
+      black_box "ATTACK BONUS", 90, 70, font_size: 7
+      black_box "DAMAGE", 160, 70, font_size: 7
+      black_box "CRITICAL", 230, 70, font_size: 7
+      move_down 12
+      white_box "Light Crossbow", 0, 90
+      white_box "", 90, 70
+      white_box "1d8", 160, 70
+      white_box "19-20/x2", 230, 70
+      move_down 12
+      black_box "SPECIAL PROPERTIES", 0, 160, font_size: 7
+      black_box "RANGE", 160, 35, font_size: 7
+      black_box "TYPE", 195, 35, font_size: 7
+      black_box "SIZE", 230, 35, font_size: 7
+      black_box "WEIGHT", 265, 35, font_size: 7
+      move_down 12
+      white_box "", 0, 160
+      white_box "80", 160, 35
+      white_box "Pierce", 195, 35
+      white_box "Med", 230, 35
+      white_box "4 lb", 265, 35
     end
 
     def generate_for(char)
       @character = Stringifier.new(char)
       basic_information
       abilites
+      saving_throws
+      3.times do weapon end
     end
 
     def save
