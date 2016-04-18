@@ -1,3 +1,5 @@
+require_relative 'core_ext'
+
 # [Work in Progress] Has to be renamed soon. Define your Character in some sort of DSL as class to use in other scripts.
 module Sb
   VERSION = '0.1.0'
@@ -22,24 +24,6 @@ module Sb
 
   # Logbuch
   %w{levelup_history}
-
-  class Integer
-    def pp
-      self * 1000
-    end
-
-    def gp
-      self * 100
-    end
-
-    def sp
-      self * 10
-    end
-
-    def cp
-      self
-    end
-  end
 
   class Character
     @@hp_mod = 0
@@ -87,12 +71,48 @@ module Sb
     def feats; @@feats; end
     def hp_mod; @@hp_mod; end
     def coins; @@coins; end
+      
+    def fortitude_save_stats
+      list = []
+      list << fortitude_save
+      list << con_mod
+      list << fortitude_magic
+      list << fortitude_misc
+      list << fortitude_temp
+      list.unshift(list.map(&:to_i).inject(:+))
+    end
+    
+    def reflex_save_stats
+      list = []
+      list << reflex_save
+      list << dex_mod
+      list << reflex_magic
+      list << reflex_misc
+      list << reflex_temp
+      list.unshift(list.map(&:to_i).inject(:+))
+    end
+    
+    def will_save_stats
+      list = []
+      list << will_save
+      list << wis_mod
+      list << will_magic
+      list << will_misc
+      list << will_temp
+      list.unshift(list.map(&:to_i).inject(:+))
+    end
+    
+    [:fortitude, :reflex, :will].each do |st|
+      attr_accessor "#{st}_magic"
+      attr_accessor "#{st}_misc"
+      attr_accessor "#{st}_temp"
+    end
   end
 
   module Race
     module Human
       def speed; 30; end
-      def race; self.class.to_s; end
+      def race; 'Human'; end
     end
   end
 
@@ -104,10 +124,10 @@ module Sb
         0 + ((level-1) / 2.0).ceil
       end
 
-      def fort_save
+      def fortitude_save
         0 + ((level-2) / 3.0).ceil
       end
-      alias_method :ref_save, :fort_save
+      alias_method :reflex_save, :fortitude_save
 
       def will_save
         2 + ((level-1) / 2.0).ceil
@@ -174,52 +194,6 @@ module Sb
     pay 1.gp, 'for bolts'
     earn 10.gp, 'for Quest#Bengar'
     pay 4.sp, 'for commodities'
-  end
-
-  require 'delegate'
-
-  class CharacterSheet < SimpleDelegator
-  #   AbilityNames = {
-  #     str: 'Strength',
-  #     dex: 'Dexterity',
-  #     con: 'Constituion',
-  #     int: 'Intelligence',
-  #     wis: 'Wisdom',
-  #     cha: 'Charisma'
-  #   }
-    def ability_table
-      table = [['Ability', 'Base', 'Mod']]
-      %w{str dex con int wis cha}.each do |ab|
-        table << [ab, send(ab), send(ab.to_s+'_mod')]
-      end
-      table
-    end
-
-    def description
-      table = []
-      %w{full_name age parents place_of_birth height weight alignment feats}.each do |desc|
-        table << [desc, send(desc)]
-      end
-      table
-    end
-
-    def spells_known_table
-      list = []
-      9.times do |i|
-        val = spells_known(i)
-        break if val <= 0
-        list << val
-      end
-      list
-    end
-
-    def coin_purse
-      val = coins
-      {pp: 1000, gp: 100, sp: 10, cp: 1}.map do |type, pot|
-        ac, val = val.divmod(pot)
-        ac
-      end
-    end
   end
 end
 
