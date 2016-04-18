@@ -3,11 +3,11 @@ module Backend::Klass::Sorcerer
   def base_attack_bonus
     0 + ((level-1) / 2.0).ceil
   end
-
-  def fort_save
+  
+  def fortitude_save
     0 + ((level-2) / 3.0).ceil
   end
-  alias_method :ref_save, :fort_save
+  alias_method :reflex_save, :fortitude_save
 
   def will_save
     2 + ((level-1) / 2.0).ceil

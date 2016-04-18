@@ -71,6 +71,42 @@ module Backend
     def feats; @@feats; end
     def hp_mod; @@hp_mod; end
     def coins; @@coins; end
+      
+    def fortitude_save_stats
+      list = []
+      list << fortitude_save
+      list << con_mod
+      list << fortitude_magic
+      list << fortitude_misc
+      list << fortitude_temp
+      list.unshift(list.map(&:to_i).inject(:+))
+    end
+    
+    def reflex_save_stats
+      list = []
+      list << reflex_save
+      list << dex_mod
+      list << reflex_magic
+      list << reflex_misc
+      list << reflex_temp
+      list.unshift(list.map(&:to_i).inject(:+))
+    end
+    
+    def will_save_stats
+      list = []
+      list << will_save
+      list << wis_mod
+      list << will_magic
+      list << will_misc
+      list << will_temp
+      list.unshift(list.map(&:to_i).inject(:+))
+    end
+    
+    [:fortitude, :reflex, :will].each do |st|
+      attr_accessor "#{st}_magic"
+      attr_accessor "#{st}_misc"
+      attr_accessor "#{st}_temp"
+    end      
 
     def skill_points
       (self.level + 3) * (klass_skill_base_value + int_mod + race_skill_bonus)
