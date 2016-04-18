@@ -1,5 +1,5 @@
 require 'prawn'
-require_relative 'sb'
+require_relative 'backend'
 
 # [Work in Progress] Generate an Character Sheet in PDF Format (with prawn).
 module CharacterSheetPdf
@@ -103,10 +103,15 @@ module CharacterSheetPdf
       end
     end
 
+    def skills
+      text_box @character.skill_points, at: [300, 300]
+    end
+
     def generate_for(char)
       @character = Stringifier.new(char)
       basic_information
       abilites
+      skills
     end
 
     def save
@@ -121,7 +126,8 @@ module CharacterSheetPdf
 end
 
 if __FILE__ == $PROGRAM_NAME
+  require_relative 'characters/gwyn'
   cs = CharacterSheetPdf::CharacterSheet35.new
-  cs.generate_for Sb::Gwyn.new
+  cs.generate_for Gwyn.new
   cs.save
 end
