@@ -1,6 +1,6 @@
 require_relative 'core_ext'
 
-# [Work in Progress] Has to be renamed soon. Define your Character in some sort of DSL as class to use in other scripts.
+# [Work in Progress] Every core mechanic / (house)rule to define characters for usage in the other scripts.
 module Backend
   VERSION = '0.2.0'
 
