@@ -1,5 +1,5 @@
 require 'prawn'
-require_relative 'sb'
+require_relative 'backend'
 
 # [Work in Progress] Generate an Character Sheet in PDF Format (with prawn).
 module CharacterSheetPdf
@@ -111,6 +111,10 @@ module CharacterSheetPdf
       end
     end
     
+    def skills
+      text_box @character.skill_points, at: [300, 300]
+    end
+
     def saving_throws
       move_down 15
       label_box "SAVING THROWS", 0, 70
@@ -173,6 +177,7 @@ module CharacterSheetPdf
       basic_information
       abilites
       saving_throws
+      skills
       3.times do weapon end
     end
 
@@ -188,7 +193,8 @@ module CharacterSheetPdf
 end
 
 if __FILE__ == $PROGRAM_NAME
+  require_relative 'characters/gwyn'
   cs = CharacterSheetPdf::CharacterSheet35.new
-  cs.generate_for Sb::Gwyn.new
+  cs.generate_for Gwyn.new
   cs.save
 end
