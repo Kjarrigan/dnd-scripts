@@ -101,12 +101,33 @@ module Backend
       list << will_temp
       list.unshift(list.map(&:to_i).inject(:+))
     end
-    
+
     [:fortitude, :reflex, :will].each do |st|
       attr_accessor "#{st}_magic"
       attr_accessor "#{st}_misc"
       attr_accessor "#{st}_temp"
-    end      
+    end
+
+    def initiative_stats
+      list = []
+      list << initiative_ability
+      list << initiative_misc
+      list.unshift(list.map(&:to_i).inject(:+))
+    end
+    attr_accessor :initiative_ability
+    attr_accessor :initiative_misc
+
+    def grapple_stats
+      list = []
+      list << base_attack_bonus
+      list << str_mod
+      list << grapple_size_mod
+      list << grapple_misc
+      list.unshift(list.map(&:to_i).inject(:+))
+    end
+    # TODO: Is the size_mod grapple specific or common for alle values effected by size?!
+    attr_accessor :grapple_size_mod
+    attr_accessor :grapple_misc
 
     def skill_points
       (self.level + 3) * (klass_skill_base_value + int_mod + race_skill_bonus)

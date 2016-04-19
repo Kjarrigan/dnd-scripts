@@ -143,10 +143,45 @@ module CharacterSheetPdf
         grey_box none_if_blank(temp), 270, 30
       end
     end
-    
-    def attack_bonus
+
+    def base_combat_stats
+      move_down 15
+      label_box "TOTAL", 190, 30
+      label_box "ABILITY MODIFIER", 230, 30
+      label_box "MISC. MODIFIER", 270, 30
+
+      move_down 15
+      black_box "BASE ATTACK\nBONUS", 0, 70
+      white_box @character.base_attack_bonus, 70, 30
+      black_box "INITIATIVE", 110, 80
+      sum, ability, misc = @character.initiative_stats.map(&:to_s)
+      white_box none_if_blank(sum), 190, 30
+      text_box "=", at: [220,cursor], width: 8, height: FONT_NORMAL+2, align: :center
+      white_box none_if_blank(ability), 230, 30
+      text_box "+", at: [260,cursor], width: 8, height: FONT_NORMAL+2, align: :center
+      white_box none_if_blank(misc), 270, 30
+
+      move_down 12
+      label_box "TOTAL", 70, 30
+      label_box "BASE ATTACK BONUS", 110, 30
+      label_box "STRENGTH MODIFIER", 150, 30
+      label_box "SIZE MODIFIER", 190, 30
+      label_box "MISC. MODIFIER", 230, 30
+
+      sum, base, ability, magic, misc = character.send("grapple_stats").map(&:to_s)
+      move_down 15
+      black_box 'GRAPPLE', 0, 70
+      white_box sum, 70, 30
+      text_box "=", at: [100,cursor], width: 8, height: FONT_NORMAL+2, align: :center
+      white_box base, 110, 30
+      text_box "+", at: [140,cursor], width: 8, height: FONT_NORMAL+2, align: :center
+      white_box ability, 150, 30
+      text_box "+", at: [180,cursor], width: 8, height: FONT_NORMAL+2, align: :center
+      white_box none_if_blank(magic), 190, 30
+      text_box "+", at: [220,cursor], width: 8, height: FONT_NORMAL+2, align: :center
+      white_box none_if_blank(misc), 230, 30
     end
-    
+
     def weapon
       move_down 20
       black_box "WEAPON", 0, 90
@@ -172,13 +207,40 @@ module CharacterSheetPdf
       white_box "4 lb", 265, 35
     end
 
+    def armor
+      move_down 20
+      black_box "ARMOR", 0, 90
+      black_box "ARMOR BONUS", 90, 70, font_size: 7
+      black_box "MAX DEX", 160, 70, font_size: 7
+      black_box "CHECK PENALTY", 230, 70, font_size: 7
+      move_down 12
+      white_box "Trader Cloth", 0, 90
+      white_box "0", 90, 70
+      white_box "18", 160, 70
+      white_box "-2", 230, 70
+      move_down 12
+      black_box "SPECIAL PROPERTIES", 0, 160, font_size: 7
+      black_box "SPEED", 160, 35, font_size: 7
+      black_box "SP. FAIL", 195, 35, font_size: 7
+      black_box "TYPE", 230, 35, font_size: 7
+      black_box "WEIGHT", 265, 35, font_size: 7
+      move_down 12
+      white_box "", 0, 160
+      white_box "80", 160, 35
+      white_box "Pierce", 195, 35
+      white_box "Med", 230, 35
+      white_box "4 lb", 265, 35
+    end
+
     def generate_for(char)
       @character = Stringifier.new(char)
       basic_information
       abilites
       saving_throws
+      base_combat_stats
       skills
       3.times do weapon end
+      2.times do armor end
     end
 
     def save
