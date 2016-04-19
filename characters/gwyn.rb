@@ -1,8 +1,8 @@
 require_relative '../backend'
 
-class Gwyn < Backend::Character
-  include Backend::Race::Human
-  include Backend::Klass::Sorcerer
+Gwyn = Backend::Character.describe do
+  race :Human
+  klass :Sorcerer
 
   level 3
   desc :name, 'Gwyneth Llywleyn'

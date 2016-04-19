@@ -2,7 +2,7 @@ require_relative 'core_ext'
 
 # [Work in Progress] Every core mechanic / (house)rule to define characters for usage in the other scripts.
 module Backend
-  VERSION = '0.2.0'
+  VERSION = '0.3.0'
 
   # Steckbrief
   # %w{full_name age parents place_of_birth height weight alignment race languages klasses speed feats}
@@ -26,51 +26,57 @@ module Backend
   # %w{levelup_history}
 
   class Character
-    @@hp_mod = 0
-    @@feats = []
-    @@coins = 0
-    @@transaction_log = []
+    def initialize
+      @hp_mod = 0
+      @feats = []
+      @coins = 0
+      @transaction_log = []
+    end    
+    
+    def self.describe(&block)
+      cs = self.new
+      cs.instance_eval &block
+      cs
+    end
 
-    class << self
-      def ability(name, val, tmp=0)
-        define_method name do val end
-        define_method name.to_s+'_mod' do (val-10)/2 end
-        define_method name.to_s+'_temp' do tmp end
-        define_method name.to_s+'_temp_mod' do tmp > 0 ? (send(name)+send("#{name}_temp")-10)/2 : 0 end
-      end
+    def ability(name, val, tmp=0)
+      define_singleton_method name do val end
+      define_singleton_method name.to_s+'_mod' do (val-10)/2 end
+      define_singleton_method name.to_s+'_temp' do tmp end
+      define_singleton_method name.to_s+'_temp_mod' do tmp > 0 ? (send(name)+send("#{name}_temp")-10)/2 : 0 end
+    end
 
-      def hp_add(val)
-        @@hp_mod += val
-      end
+    def hp_add(val)
+      @hp_mod += val
+    end
 
-      def level(val)
-        define_method :level do val end
-      end
+    def level(val)
+      define_singleton_method :level do val end
+    end
 
-      def desc(name, val)
-        define_method name do val end
-      end
+    def desc(name, val)
+      define_singleton_method name do val end
+    end
 
-      def feat(name)
-        @@feats << name
-      end
+    def feat(name)
+      @feats << name
+    end
 
-      def earn(value, msg)
-        @@transaction_log << [value, msg]
-        @@coins += value
-      end
-      def pay(value, msg)
-        earn(-1*value, msg)
-      end
+    def earn(value, msg)
+      @transaction_log << [value, msg]
+      @coins += value
+    end
+    def pay(value, msg)
+      earn(-1*value, msg)
     end
 
     def base_hp
       hit_die + (level * con_mod) + hp_mod
     end
 
-    def feats; @@feats; end
-    def hp_mod; @@hp_mod; end
-    def coins; @@coins; end
+    attr_reader :feats
+    attr_reader :hp_mod
+    attr_reader :coins
       
     def fortitude_save_stats
       list = []
@@ -132,6 +138,14 @@ module Backend
     def skill_points
       (self.level + 3) * (klass_skill_base_value + int_mod + race_skill_bonus)
     end
+    
+    def race(name)
+      self.singleton_class.include Race.const_get(name)
+    end
+    
+    def klass(name)
+      self.singleton_class.include Klass.const_get(name)
+    end    
   end
 
   module Race

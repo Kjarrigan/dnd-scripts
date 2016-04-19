@@ -3,7 +3,7 @@ require_relative 'backend'
 
 # [Work in Progress] Generate an Character Sheet in PDF Format (with prawn).
 module CharacterSheetPdf
-  VERSION = '0.1.0'
+  VERSION = '0.1.1'
 
   module Helper
     WIDTH = 598
@@ -257,6 +257,6 @@ end
 if __FILE__ == $PROGRAM_NAME
   require_relative 'characters/gwyn'
   cs = CharacterSheetPdf::CharacterSheet35.new
-  cs.generate_for Gwyn.new
+  cs.generate_for Gwyn
   cs.save
 end
