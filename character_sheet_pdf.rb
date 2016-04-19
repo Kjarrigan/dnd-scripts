@@ -2,8 +2,19 @@ require 'prawn'
 require_relative 'backend'
 
 # [Work in Progress] Generate an Character Sheet in PDF Format (with prawn).
+# - [x] Add general section
+# - [x] Add basic offensive combat stats
+# - [ ] Add basic defensive combat stats
+# - [x] Add saving throws
+# - [x] Add weapon panel
+# - [x] Add armor panel
+# - [ ] Add skill list
+# - [ ] Add spell section
+# - [ ] Add XP panel
+# - [ ] Add equipment section
+# - [ ] Add feat list
 module CharacterSheetPdf
-  VERSION = '0.1.1'
+  VERSION = '0.1.2'
 
   module Helper
     WIDTH = 598

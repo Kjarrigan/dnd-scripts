@@ -1,8 +1,14 @@
 require_relative 'core_ext'
 
 # [Work in Progress] Every core mechanic / (house)rule to define characters for usage in the other scripts.
+# - [x] Find a way to describe Characters (non-programmer friendly?¿)
+# - [x] Base for Klasses
+# - [x] Base for Races
+# - [ ] Klass::Sorcerer finished
+# - [ ] Klass::Human finished
+# - [ ] Add more classes / races as needed
 module Backend
-  VERSION = '0.3.0'
+  VERSION = '0.3.1'
 
   # Steckbrief
   # %w{full_name age parents place_of_birth height weight alignment race languages klasses speed feats}

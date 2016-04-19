@@ -25,7 +25,7 @@ def read_script_header(file)
       when /VERSION\s?=\s?['"](.*)['"]/
         version = $1
         break
-      when /^\s*#(.*)/ then desc << $1
+      when /^\s*#\s(.*)/ then desc << $1
       end
     end
   end
