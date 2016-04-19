@@ -1,4 +1,5 @@
 require_relative 'core_ext'
+require 'yaml'
 
 # [Work in Progress] Every core mechanic / (house)rule to define characters for usage in the other scripts.
 module Backend
@@ -24,6 +25,30 @@ module Backend
 
   # Logbuch
   # %w{levelup_history}
+  class Skill < Struct.new :name, :useable_without_ranks, :key_ability
+    def self.all
+      list = []
+      YAML.load_file('./skills.yml').each do |_,skill|
+        list << Skill.new(skill['name'], skill['useable_without_ranks'], skill['key_ability'])
+      end
+      list
+    end
+
+    # attr_accessor :name
+    # attr_accessor :useable_without_ranks
+    # attr_accessor :key_ability
+    attr_accessor :special
+    attr_accessor :points
+    attr_accessor :klass_skill
+
+    def usable?
+      self.useable_without_ranks or self.ranks > 1
+    end
+
+    def ranks
+      klass_skill ? points / 2.0 : points
+    end
+  end
 
   class Character
     @@hp_mod = 0
@@ -62,6 +87,22 @@ module Backend
       def pay(value, msg)
         earn(-1*value, msg)
       end
+
+      def skill(name, points_spent, special: nil)
+        @@skills ||= initialize_skills
+        @@skills[name].points = points_spent
+        @@skills[name].special = special
+      end
+
+      private
+      # Load all known skills and merge them with the klass-specific values
+      def initialize_skills
+        list = Skill.all
+        klass_skills.each do |ks|
+          list[ks].klass_skill = true
+        end
+        list
+      end
     end
 
     def base_hp
@@ -71,7 +112,7 @@ module Backend
     def feats; @@feats; end
     def hp_mod; @@hp_mod; end
     def coins; @@coins; end
-      
+
     def fortitude_save_stats
       list = []
       list << fortitude_save
@@ -81,7 +122,7 @@ module Backend
       list << fortitude_temp
       list.unshift(list.map(&:to_i).inject(:+))
     end
-    
+
     def reflex_save_stats
       list = []
       list << reflex_save
@@ -91,7 +132,7 @@ module Backend
       list << reflex_temp
       list.unshift(list.map(&:to_i).inject(:+))
     end
-    
+
     def will_save_stats
       list = []
       list << will_save
@@ -131,6 +172,10 @@ module Backend
 
     def skill_points
       (self.level + 3) * (klass_skill_base_value + int_mod + race_skill_bonus)
+    end
+
+    def skills
+      @@skills ||= initialize_skills
     end
   end
 

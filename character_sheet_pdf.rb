@@ -31,7 +31,7 @@ module CharacterSheetPdf
       self.fill_color = "000000"
       text_box content, at: [x,cursor], width: w-margin, align: :center, weight: weight
     end
-    
+
     def grey_box(content, x, w, margin: 3, weight: :normal)
       self.fill_color = "ffffff"
       self.stroke_color = "c0c0c0"
@@ -39,7 +39,7 @@ module CharacterSheetPdf
       self.fill_color = "000000"
       self.stroke_color = "000000"
       text_box content, at: [x,cursor], width: w-margin, align: :center, weight: weight
-    end    
+    end
 
     def label_box(content, x, w, valign: :bottom)
       text_box content, at: [x, cursor], width: w, height: FONT_NORMAL+2, size: FONT_SMALL, align: :center, valign: valign
@@ -110,7 +110,7 @@ module CharacterSheetPdf
         grey_box none_if_blank(character.send("#{ab}_temp_mod")), 130, 30
       end
     end
-    
+
     def skills
       text_box @character.skill_points, at: [300, 300]
     end
@@ -124,10 +124,10 @@ module CharacterSheetPdf
       label_box "MAGIC MODIFIER", 190, 30
       label_box "MISC. MODIFIER", 230, 30
       label_box "TEMPORARY MODIFIER", 270, 30
-      
+
       [:fortitude, :reflex, :will].each do |save_throw|
         sum, base, ability, magic, misc, temp = character.send("#{save_throw}_save_stats").map(&:to_s)
-        
+
         move_down 15
         black_box save_throw.to_s.upcase, 0, 70
         white_box sum, 70, 30
@@ -230,6 +230,16 @@ module CharacterSheetPdf
       white_box "Pierce", 195, 35
       white_box "Med", 230, 35
       white_box "4 lb", 265, 35
+    end
+
+    def skill_list
+      # Only show skills with at least 1 point spent and skills no ranks needed to use
+      skills = @character.skills.delete_if{|skill| !skill.usable? }.sort
+      skills.each.with_index do |skill, idx|
+        white_box (skill.klass_skill? ? 'X' : ''), 0, 5
+        text_box skill.name, at: [15, cursor], size: FONT_NORMAL
+        text_box skill.key_ability, at: [100, cursor], size: FONT_NORMAL
+      end
     end
 
     def generate_for(char)

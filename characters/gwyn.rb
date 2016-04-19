@@ -33,6 +33,8 @@ class Gwyn < Backend::Character
   feat :Combat_Casting
   feat :Point_Blank_shot # Level 3
 
+  skill :profession, 6, special: 'Trader'
+
   #   spell 0, :Detect_Magic
   #   spell 0, :Light
   #   spell 0, :Mage_Hand # Level 2

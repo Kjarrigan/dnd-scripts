@@ -3,7 +3,7 @@ module Backend::Klass::Sorcerer
   def base_attack_bonus
     0 + ((level-1) / 2.0).ceil
   end
-  
+
   def fortitude_save
     0 + ((level-2) / 3.0).ceil
   end
@@ -22,4 +22,8 @@ module Backend::Klass::Sorcerer
   end
 
   def hit_die; 4; end
+
+  def klass_skills
+    [:diplomacy, :profession]
+  end
 end

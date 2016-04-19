@@ -1,0 +1,5 @@
+---
+appraise:
+  name: Appraise
+  useable_without_ranks: true
+  key_ability: INT
