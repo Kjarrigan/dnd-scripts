@@ -1,3 +1,12 @@
+Lv. 7
+- HP +3 +1 Con
+- Spells/Day 0/0/+1/+1
+- SpellsKnown 0/+1/+1/+1
+- New Spell: Tongues (Lv. 3)
+- New Spell: Invisibility (Lv. 2)
+- New Spell: Comprehend Languages (Lv. 1)
+- Skills 4+2+1: +1 (cs) Spellcraft, +1 (cc) Diplomacy / Gather Information / Decipher Script
+
 Lv. 6
 - HP +4 +1 Con
 - BaseAttack +1
@@ -10,8 +19,7 @@ Lv. 6
 - New Spell: Leomund's Tiny Hut (Lv. 3)
 - New Spell: Read Magic (Lv. 0)
 - Change Spell: Charm Person (Lv. 1) -> Identify (Lv. 1)
-- Skills 4+2+1: +1 (cs) Spellcraft, +2 (cs) Knowledge (Arcana), +1 (cc) Decipher Script / Use Magic Device
-
+- Skills 4+2+1: +2 (cs) Spellcraft, +3 (cs) Knowledge (Arcana), +1 (cc) Decipher Script
 
 Lv. 5
 - HP +2 +1 Con
@@ -19,7 +27,7 @@ Lv. 5
 - SpellsKnown 0/+1/+1
 - New Spell: Mage Armor (Lv. 1)
 - New Spell: Scorching Ray (Lv. 2)
-- Skills 4+2+1: +2 (cs) Spellcraft, +1 (cs) Knowledge (Arcana), +1 (cc) Decipher Script / Use Magic Device
+- Skills 4+2+1: +1 (cs) Spellcraft, +1 (cc) Knowledge (Local) / Gather Information / Diplomacy
 # EDIT: Spellcraft +7 ging leider nicht. Hatte das Skillcap vergessen.
 
 Lv. 4
@@ -30,7 +38,8 @@ Lv. 4
 - SpellsKnown +1/0/+1
 - New Spell: Mending (Lv. 0)
 - New Spell: Protection from Arrows (Lv. 2)
-- Skills 4+2+1: +1 (cc) Gather Information / Diplomacy, +1 (cs) Concentration, +2 (cs) Spellcraft
+- Skills 4+2+1: +1 (cc) Use Magic Device, +3 (cs) Concentration, +2 (cs) Spellcraft
+# EDITH sagt +1 (cc) Gather Information / Diplomacy war hier nicht erlaubt - maximal +0,5
 - Attribute: Constitution+1 (12 => 13)
 
 Lv. 3
@@ -39,7 +48,6 @@ Lv. 3
 - RefSave +1
 - Spells/Day 0/+1
 - SpellsKnown 0/+1
-- Skills 4+2+1: +1 (cc) Gather Information / Knowledge (Local) / Diplomacy, +1 (cs) Concentration
 - Skills 4+2+1: +1 (cc) Gather Information / Knowledge (Local) / Diplomacy, +1 (cs) Concentration
 - Feat: Point Blank Shot
 - New Spell: Ray of Enfeeblement (Lv. 1)
@@ -50,7 +58,8 @@ Lv. 2
 - WillSave +1
 - Spells/Day +1/+1
 - SpellsKnown +1/0
-- Skills 4+2+1: +1 (cc) Gather Information / Knowledge (Local) / Diplomacy, +1 (cs) Concentration
+- Skills 4+2+1: +2 (cc) Use Magic Device, +2 (cs) Knowledge (Arcana), +1 (cs) Concentration
+# EDITH sagt +1 (cc) Gather Information / Knowledge (Local) / Diplomacy War hier nicht erlaubt - maximal +0,5
 - New Spell: Mage Hand (Lv. 0)
 
 Lv. 1
@@ -61,7 +70,6 @@ Lv. 1
 - Attribute: Wisdom+10
 - Attribute: Charisma+16
 - HP +8
-- BaseAttack +0
 - WillSave +2
 - Spells/Day +5/+3
 - SpellsKnown +4/+2

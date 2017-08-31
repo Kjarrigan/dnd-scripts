@@ -18,7 +18,7 @@ class ChangelogParser
       when Hash
         puts
         val.sort{|(k1,_),(k2,_)| k1 <=> k2 }.each do |k,v|
-          puts " - #{k}: #{v.is_a?(Array) ? v.sort : v}"
+          puts " - #{k}: #{v.is_a?(Array) ? v.sort.join(', ') : v}"
         end
       else
         puts val.inspect
@@ -46,7 +46,7 @@ class ChangelogParser
         lvl = "Lv. #{$2}"
         @spells[lvl] ||= []
         @spells[lvl] << $1
-      when /- Change Spell: (\w.*) \(Lv. (\d)\) -> (\w.*) \(Lv. (\d)\)/
+      when /^- Change Spell: (\w.*) \(Lv. (\d)\) -> (\w.*) \(Lv. (\d)\)/
         if $2 != $4
           warn "You can't swap Spells of different levels: #{$2} <> #{$4}"
         else
@@ -56,9 +56,9 @@ class ChangelogParser
           @spells['-'+lvl] ||= []
           @spells['-'+lvl] << $1
         end
-      when /- Feat: (.*)/
+      when /^- Feat: (.*)/
         @feats << $1
-      when /- Skills (.*):(.*)/
+      when /^- Skills (.*):(.*)/
         points = eval($1)
         debug "Points: #{points}"
 
@@ -74,7 +74,7 @@ class ChangelogParser
           end
         end
         warn("Not all points spent! #{points} #{line}") if points > 0
-      when /- (Spells(\/Day|Known))/
+      when /^- (Spells(\/Day|Known))/
         att = "@"+underscore($1).gsub('/', '_')
         debug "Parsing att: #{att}"
 
@@ -114,7 +114,7 @@ class ChangelogParser
     @points = 0
     @skills.each do |skill,rank|
       cap = @levels.max.to_i + 3
-      cap /= 2 if skill =~ /\(cc\)/
+      cap /= 2.0 if skill =~ /\(cc\)/
       warn("#{skill} exceeds level cap #{cap}") if rank > cap
       @points += rank * (skill =~ /\(cc\)/ ? 2 : 1)
     end
