@@ -1,0 +1,76 @@
+Lv. 6
+- HP +4 +1 Con
+- BaseAttack +1
+- FortSave +1
+- WillSave +1
+- RefSave +1
+- Spells/Day 0/0/+1/+3 (Level 3 Spells freigeschalten!)
+- SpellsKnown +1/0/0/+1
+- Feat: Magical Aptitude (+2 Spellcraft / +2 Use Magic Device)
+- New Spell: Leomund's Tiny Hut (Lv. 3)
+- New Spell: Read Magic (Lv. 0)
+- Change Spell: Charm Person (Lv. 1) -> Identify (Lv. 1)
+- Skills 4+2+1: +1 (cs) Spellcraft, +2 (cs) Knowledge (Arcana), +1 (cc) Decipher Script / Use Magic Device
+
+
+Lv. 5
+- HP +2 +1 Con
+- Spells/Day 0/0/+1
+- SpellsKnown 0/+1/+1
+- New Spell: Mage Armor (Lv. 1)
+- New Spell: Scorching Ray (Lv. 2)
+- Skills 4+2+1: +2 (cs) Spellcraft, +1 (cs) Knowledge (Arcana), +1 (cc) Decipher Script / Use Magic Device
+# EDIT: Spellcraft +7 ging leider nicht. Hatte das Skillcap vergessen.
+
+Lv. 4
+- HP +4 +1 Con
+- WillSave +1
+- BaseAttack +1
+- Spells/Day 0/+1/+3
+- SpellsKnown +1/0/+1
+- New Spell: Mending (Lv. 0)
+- New Spell: Protection from Arrows (Lv. 2)
+- Skills 4+2+1: +1 (cc) Gather Information / Diplomacy, +1 (cs) Concentration, +2 (cs) Spellcraft
+- Attribute: Constitution+1 (12 => 13)
+
+Lv. 3
+- HP +3 +1 Con
+- FortSave +1
+- RefSave +1
+- Spells/Day 0/+1
+- SpellsKnown 0/+1
+- Skills 4+2+1: +1 (cc) Gather Information / Knowledge (Local) / Diplomacy, +1 (cs) Concentration
+- Skills 4+2+1: +1 (cc) Gather Information / Knowledge (Local) / Diplomacy, +1 (cs) Concentration
+- Feat: Point Blank Shot
+- New Spell: Ray of Enfeeblement (Lv. 1)
+
+Lv. 2
+- HP +3 +1 Con
+- BaseAttack +1
+- WillSave +1
+- Spells/Day +1/+1
+- SpellsKnown +1/0
+- Skills 4+2+1: +1 (cc) Gather Information / Knowledge (Local) / Diplomacy, +1 (cs) Concentration
+- New Spell: Mage Hand (Lv. 0)
+
+Lv. 1
+- Attribute: Strength+8
+- Attribute: Dexterity+14
+- Attribute: Constitution+12
+- Attribute: Intelligence+14
+- Attribute: Wisdom+10
+- Attribute: Charisma+16
+- HP +8
+- BaseAttack +0
+- WillSave +2
+- Spells/Day +5/+3
+- SpellsKnown +4/+2
+- Skills 20: +2 (cc) Gather Information / Knowledge (Local) / Diplomacy, +4 (cs) Profession (Artefakthändler) / Spellcraft
+- Feat: Eschew Materials
+- Feat: Combat Casting
+- New Spell: Detect Magic (Lv. 0)
+- New Spell: Light (Lv. 0)
+- New Spell: Message (Lv. 0)
+- New Spell: Prestidigitation (Lv. 0)
+- New Spell: Magic Missle (Lv. 1)
+- New Spell: Charm Person (Lv. 1)
