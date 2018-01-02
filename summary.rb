@@ -30,6 +30,8 @@ class ChangelogParser
     until fo.eof?
       line = fo.gets.chomp
 
+      begin
+
       case line
       when /^Lv. (\d+)/
         @levels << $1
@@ -87,6 +89,10 @@ class ChangelogParser
         next
       else
         warn "SKIPPED LINE: #{line}" unless line.empty?
+      end
+      rescue => e
+        p line.inspect
+        raise e
       end
     end
   end
